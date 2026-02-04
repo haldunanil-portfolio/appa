@@ -1,26 +1,142 @@
 @import "tailwindcss";
 
+/* Geocities color palette */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --geo-bg: #000033;
+  --geo-yellow: #ffff00;
+  --geo-lime: #00ff00;
+  --geo-hot-pink: #ff00ff;
+  --geo-cyan: #00ffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Comic Sans for authentic 90s feel */
+body {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  background: var(--geo-bg);
+  color: var(--geo-yellow);
+  margin: 0;
+  overflow: hidden;
+  min-height: 100vh;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Starfield background using layered gradients */
+.starfield {
+  background:
+    radial-gradient(1px 1px at 20px 30px, white, transparent),
+    radial-gradient(1px 1px at 40px 70px, white, transparent),
+    radial-gradient(1px 1px at 50px 160px, white, transparent),
+    radial-gradient(1px 1px at 90px 40px, white, transparent),
+    radial-gradient(1px 1px at 130px 80px, white, transparent),
+    radial-gradient(1px 1px at 160px 120px, white, transparent),
+    radial-gradient(2px 2px at 180px 20px, white, transparent),
+    radial-gradient(1px 1px at 200px 180px, white, transparent),
+    radial-gradient(1px 1px at 220px 90px, white, transparent),
+    radial-gradient(1px 1px at 250px 150px, white, transparent),
+    radial-gradient(2px 2px at 280px 60px, white, transparent),
+    radial-gradient(1px 1px at 300px 130px, white, transparent),
+    radial-gradient(1px 1px at 350px 30px, white, transparent),
+    radial-gradient(1px 1px at 380px 170px, white, transparent),
+    radial-gradient(2px 2px at 420px 100px, white, transparent),
+    radial-gradient(1px 1px at 450px 50px, white, transparent),
+    radial-gradient(1px 1px at 500px 140px, white, transparent),
+    var(--geo-bg);
+  background-size: 550px 200px;
+}
+
+/* Broadway marquee heading */
+.broadway-marquee {
+  display: inline-block;
+  padding: 20px 40px;
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--geo-yellow);
+  text-shadow:
+    0 0 10px var(--geo-yellow),
+    0 0 20px var(--geo-hot-pink),
+    0 0 30px var(--geo-hot-pink);
+  border: 8px solid;
+  border-image: repeating-linear-gradient(
+    90deg,
+    var(--geo-yellow) 0px,
+    var(--geo-yellow) 10px,
+    transparent 10px,
+    transparent 20px
+  ) 8;
+  animation: marquee-lights 0.5s infinite;
+  position: relative;
+}
+
+@keyframes marquee-lights {
+  0%, 100% {
+    border-image: repeating-linear-gradient(
+      90deg,
+      var(--geo-yellow) 0px,
+      var(--geo-yellow) 10px,
+      var(--geo-bg) 10px,
+      var(--geo-bg) 20px
+    ) 8;
+  }
+  50% {
+    border-image: repeating-linear-gradient(
+      90deg,
+      var(--geo-bg) 0px,
+      var(--geo-bg) 10px,
+      var(--geo-yellow) 10px,
+      var(--geo-yellow) 20px
+    ) 8;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Chunky beveled containers */
+.geo-box {
+  border: 4px outset #888888;
+  background: #000066;
+  padding: 15px;
+}
+
+/* Countdown number styling */
+.countdown-number {
+  font-size: 4rem;
+  font-weight: bold;
+  color: var(--geo-lime);
+  text-shadow:
+    2px 2px 0 #003300,
+    0 0 10px var(--geo-lime);
+}
+
+.countdown-label {
+  font-size: 1rem;
+  color: var(--geo-cyan);
+  text-transform: uppercase;
+}
+
+/* Spinning animation for puppy */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+/* Flashing text for when countdown ends */
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.flashing {
+  animation: flash 0.5s infinite;
+  color: var(--geo-hot-pink);
+}
+
+/* Link styling */
+a {
+  color: var(--geo-cyan);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--geo-hot-pink);
 }
