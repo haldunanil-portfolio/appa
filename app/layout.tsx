@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import { Comic_Neue } from "next/font/google";
 import "./globals.css";
+
+const comicNeue = Comic_Neue({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-comic-neue",
+});
 
 export const metadata: Metadata = {
   title: "Countdown to Appa!!!",
@@ -40,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={comicNeue.variable}>{children}</body>
     </html>
   );
 }

@@ -9,9 +9,9 @@
   --geo-cyan: #00ffff;
 }
 
-/* Comic Sans for authentic 90s feel */
+/* Comic Sans for authentic 90s feel - Comic Neue web font for mobile compatibility */
 body {
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: var(--font-comic-neue), "Comic Sans MS", cursive;
   background: var(--geo-bg);
   color: var(--geo-yellow);
   margin: 0;
