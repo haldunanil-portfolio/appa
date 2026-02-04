@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 
-const PUPPY_SIZE = 150;
+const PUPPY_SIZE = 250;
 const SPEED = 3;
 
 interface Position {
@@ -101,8 +101,8 @@ export function BouncingPuppy() {
       }}
     >
       <Image
-        src="/puppy.png"
-        alt="Puppy"
+        src="/appa.png"
+        alt="Appa"
         width={PUPPY_SIZE}
         height={PUPPY_SIZE}
         className="spinning"

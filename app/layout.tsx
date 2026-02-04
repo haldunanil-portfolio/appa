@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Puppy Countdown!!!",
-  description: "Counting down to puppy day! Best viewed in Netscape Navigator.",
+  title: "Countdown to Appa!!!",
+  description: "Counting down to Appa day! Best viewed in Netscape Navigator.",
 };
 
 export default function RootLayout({
