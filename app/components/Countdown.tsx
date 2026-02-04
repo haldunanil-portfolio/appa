@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore, useMemo } from "react";
 
 interface TimeLeft {
   days: number;
@@ -25,25 +25,37 @@ function calculateTimeLeft(targetDate: Date): TimeLeft | null {
   };
 }
 
+// Hydration-safe client detection using useSyncExternalStore
+const emptySubscribe = () => () => {};
+function useIsClient() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,  // Client returns true
+    () => false  // Server returns false
+  );
+}
+
+// Parse and validate the target date once
+function getTargetDate(): { date: Date | null; error: string | null } {
+  const dateStr = process.env.NEXT_PUBLIC_PUPPY_DATE;
+  if (!dateStr) {
+    return { date: null, error: "Set NEXT_PUBLIC_PUPPY_DATE to start countdown!" };
+  }
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) {
+    return { date: null, error: "Set NEXT_PUBLIC_PUPPY_DATE to start countdown!" };
+  }
+  return { date, error: null };
+}
+
 export function Countdown() {
+  const isClient = useIsClient();
+  const { date: targetDate, error } = useMemo(() => getTargetDate(), []);
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
-  const [isClient, setIsClient] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
+  // Countdown interval - subscribes to time updates
   useEffect(() => {
-    setIsClient(true);
-
-    const dateStr = process.env.NEXT_PUBLIC_PUPPY_DATE;
-    if (!dateStr) {
-      setError("Set NEXT_PUBLIC_PUPPY_DATE to start countdown!");
-      return;
-    }
-
-    const targetDate = new Date(dateStr);
-    if (isNaN(targetDate.getTime())) {
-      setError("Set NEXT_PUBLIC_PUPPY_DATE to start countdown!");
-      return;
-    }
+    if (!targetDate) return;
 
     const updateCountdown = () => {
       setTimeLeft(calculateTimeLeft(targetDate));
@@ -53,7 +65,7 @@ export function Countdown() {
     const interval = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [targetDate]);
 
   if (!isClient) {
     return <div className="geo-box">Loading...</div>;

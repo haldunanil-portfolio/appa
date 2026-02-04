@@ -1,50 +1,56 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 
 const PUPPY_SIZE = 250;
 const SPEED = 3;
 
-interface Position {
-  x: number;
-  y: number;
-}
-
-interface Velocity {
-  vx: number;
-  vy: number;
+// Hydration-safe client detection
+const emptySubscribe = () => () => {};
+function useIsClient() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 }
 
 export function BouncingPuppy() {
-  const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
-  const [isClient, setIsClient] = useState(false);
-  const velocityRef = useRef<Velocity>({ vx: SPEED, vy: SPEED });
+  const isClient = useIsClient();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const positionRef = useRef({ x: 0, y: 0 });
+  const velocityRef = useRef({ vx: SPEED, vy: SPEED });
   const animationRef = useRef<number | null>(null);
 
-  const initializePosition = useCallback(() => {
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Initialize random position and direction
     const maxX = window.innerWidth - PUPPY_SIZE;
     const maxY = window.innerHeight - PUPPY_SIZE;
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    // Random initial direction
     const angle = Math.random() * 2 * Math.PI;
+
+    positionRef.current = {
+      x: Math.random() * maxX,
+      y: Math.random() * maxY,
+    };
     velocityRef.current = {
       vx: Math.cos(angle) * SPEED,
       vy: Math.sin(angle) * SPEED,
     };
 
-    setPosition({ x, y });
-  }, []);
+    // Apply initial position
+    container.style.left = `${positionRef.current.x}px`;
+    container.style.top = `${positionRef.current.y}px`;
 
-  const animate = useCallback(() => {
-    setPosition((prev) => {
+    const animate = () => {
       const maxX = window.innerWidth - PUPPY_SIZE;
       const maxY = window.innerHeight - PUPPY_SIZE;
 
-      let newX = prev.x + velocityRef.current.vx;
-      let newY = prev.y + velocityRef.current.vy;
+      let newX = positionRef.current.x + velocityRef.current.vx;
+      let newY = positionRef.current.y + velocityRef.current.vy;
 
       // Bounce off walls
       if (newX <= 0 || newX >= maxX) {
@@ -56,21 +62,27 @@ export function BouncingPuppy() {
         newY = Math.max(0, Math.min(maxY, newY));
       }
 
-      return { x: newX, y: newY };
-    });
+      positionRef.current = { x: newX, y: newY };
 
-    animationRef.current = requestAnimationFrame(animate);
-  }, []);
+      // Direct DOM update - no React re-render
+      if (container) {
+        container.style.left = `${newX}px`;
+        container.style.top = `${newY}px`;
+      }
 
-  useEffect(() => {
-    setIsClient(true);
-    initializePosition();
+      animationRef.current = requestAnimationFrame(animate);
+    };
 
     const handleResize = () => {
-      setPosition((prev) => ({
-        x: Math.min(prev.x, window.innerWidth - PUPPY_SIZE),
-        y: Math.min(prev.y, window.innerHeight - PUPPY_SIZE),
-      }));
+      const maxX = window.innerWidth - PUPPY_SIZE;
+      const maxY = window.innerHeight - PUPPY_SIZE;
+      positionRef.current.x = Math.min(positionRef.current.x, maxX);
+      positionRef.current.y = Math.min(positionRef.current.y, maxY);
+
+      if (container) {
+        container.style.left = `${positionRef.current.x}px`;
+        container.style.top = `${positionRef.current.y}px`;
+      }
     };
 
     window.addEventListener("resize", handleResize);
@@ -82,7 +94,7 @@ export function BouncingPuppy() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [animate, initializePosition]);
+  }, []);
 
   if (!isClient) {
     return null;
@@ -90,10 +102,11 @@ export function BouncingPuppy() {
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: "fixed",
-        left: position.x,
-        top: position.y,
+        left: 0,
+        top: 0,
         width: PUPPY_SIZE,
         height: PUPPY_SIZE,
         zIndex: 1000,
