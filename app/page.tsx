@@ -47,13 +47,20 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Guestbook */}
+          {/* Instagram Link */}
           <div className="geo-box text-center">
+            <p className="text-[var(--geo-lime)]">📸 Follow Appa!</p>
             <p>
-              <a href="#">📖 Sign my Guestbook!</a>
+              <a
+                href="https://www.instagram.com/appainthebigappa"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                @appainthebigappa
+              </a>
             </p>
             <p className="text-sm text-[var(--geo-hot-pink)] mt-2">
-              Let me know you were here!
+              on the Instagrams!!!
             </p>
           </div>
         </div>
