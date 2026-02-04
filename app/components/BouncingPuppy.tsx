@@ -94,7 +94,7 @@ export function BouncingPuppy() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []);
+  }, [isClient]);
 
   if (!isClient) {
     return null;

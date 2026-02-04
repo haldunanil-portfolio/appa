@@ -21,8 +21,7 @@ body {
 
 /* Starfield background using layered gradients */
 .starfield {
-  background:
-    radial-gradient(1px 1px at 20px 30px, white, transparent),
+  background: radial-gradient(1px 1px at 20px 30px, white, transparent),
     radial-gradient(1px 1px at 40px 70px, white, transparent),
     radial-gradient(1px 1px at 50px 160px, white, transparent),
     radial-gradient(1px 1px at 90px 40px, white, transparent),
@@ -38,8 +37,7 @@ body {
     radial-gradient(1px 1px at 380px 170px, white, transparent),
     radial-gradient(2px 2px at 420px 100px, white, transparent),
     radial-gradient(1px 1px at 450px 50px, white, transparent),
-    radial-gradient(1px 1px at 500px 140px, white, transparent),
-    var(--geo-bg);
+    radial-gradient(1px 1px at 500px 140px, white, transparent), var(--geo-bg);
   background-size: 550px 200px;
 }
 
@@ -50,40 +48,42 @@ body {
   font-size: 3rem;
   font-weight: bold;
   color: var(--geo-yellow);
-  text-shadow:
-    0 0 10px var(--geo-yellow),
-    0 0 20px var(--geo-hot-pink),
+  text-shadow: 0 0 10px var(--geo-yellow), 0 0 20px var(--geo-hot-pink),
     0 0 30px var(--geo-hot-pink);
   border: 8px solid;
   border-image: repeating-linear-gradient(
-    90deg,
-    var(--geo-yellow) 0px,
-    var(--geo-yellow) 10px,
-    transparent 10px,
-    transparent 20px
-  ) 8;
+      90deg,
+      var(--geo-yellow) 0px,
+      var(--geo-yellow) 10px,
+      transparent 10px,
+      transparent 20px
+    )
+    8;
   animation: marquee-lights 0.5s infinite;
   position: relative;
 }
 
 @keyframes marquee-lights {
-  0%, 100% {
+  0%,
+  100% {
     border-image: repeating-linear-gradient(
-      90deg,
-      var(--geo-yellow) 0px,
-      var(--geo-yellow) 10px,
-      var(--geo-bg) 10px,
-      var(--geo-bg) 20px
-    ) 8;
+        90deg,
+        var(--geo-yellow) 0px,
+        var(--geo-yellow) 10px,
+        var(--geo-bg) 10px,
+        var(--geo-bg) 20px
+      )
+      8;
   }
   50% {
     border-image: repeating-linear-gradient(
-      90deg,
-      var(--geo-bg) 0px,
-      var(--geo-bg) 10px,
-      var(--geo-yellow) 10px,
-      var(--geo-yellow) 20px
-    ) 8;
+        90deg,
+        var(--geo-bg) 0px,
+        var(--geo-bg) 10px,
+        var(--geo-yellow) 10px,
+        var(--geo-yellow) 20px
+      )
+      8;
   }
 }
 
@@ -99,9 +99,9 @@ body {
   font-size: 4rem;
   font-weight: bold;
   color: var(--geo-lime);
-  text-shadow:
-    2px 2px 0 #003300,
-    0 0 10px var(--geo-lime);
+  text-shadow: 2px 2px 0 #003300, 0 0 10px var(--geo-lime);
+  min-width: 7rem;
+  display: inline-block;
 }
 
 .countdown-label {
@@ -112,8 +112,12 @@ body {
 
 /* Spinning animation for puppy */
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .spinning {
@@ -122,8 +126,13 @@ body {
 
 /* Flashing text for when countdown ends */
 @keyframes flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .flashing {
